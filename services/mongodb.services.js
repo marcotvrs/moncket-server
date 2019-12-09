@@ -1,6 +1,6 @@
 const MongoClient = require("mongodb").MongoClient;
 
-const MongoDB = {
+module.exports = {
     client(_projects, _projectId) {
         const { uri, database } = _projects[_projectId].mongodb;
         return {
@@ -12,5 +12,3 @@ const MongoDB = {
         };
     }
 };
-
-module.exports = MongoDB;

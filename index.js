@@ -1,3 +1,4 @@
-module.exports = (_projects, _io) => {
-    require('./sockets')(_projects, _io);
-}
+module.exports = (projects, app, io) => {
+    require("./http")(projects, app);
+    require("./sockets")(projects, io);
+};
