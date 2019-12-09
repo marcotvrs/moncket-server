@@ -45,7 +45,7 @@ module.exports = (projects, app) => {
                 let transaction = {};
                 const { stacks } = req.body;
                 const { projectid } = req.headers;
-                const { client, database } = mongodb.client(_projects, projectid);
+                const { client, database } = mongodb.client(projects, projectid);
                 client.connect(async error => {
                     try {
                         if (error) throw error;

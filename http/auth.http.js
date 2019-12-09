@@ -41,7 +41,7 @@ module.exports = (projects, app) => {
             const { email } = req.body;
             if (!email) throw new Error("E-mail is required for password reset.");
             const { projectid } = req.headers;
-            const { client, database } = mongodb.client(_projects, projectid);
+            const { client, database } = mongodb.client(projects, projectid);
             client.connect(async error => {
                 try {
                     if (error) throw error;
@@ -59,7 +59,7 @@ module.exports = (projects, app) => {
                         }
                     );
                     client.close(() => {
-                        const { transporter, message } = _projects[projectid].mails.resetPassword;
+                        const { transporter, message } = projects[projectid].mails.resetPassword;
                         message.to = email;
                         message.html = message.html.replace("{{VERIFICATION_CODE}}", verificationCode);
                         mailer.send(transporter, message);
@@ -80,7 +80,7 @@ module.exports = (projects, app) => {
             if (!email || !password || !verificationCode)
                 throw new Error("All attributes are required for password reset.");
             const { projectid } = req.headers;
-            const { client, database } = mongodb.client(_projects, projectid);
+            const { client, database } = mongodb.client(projects, projectid);
             client.connect(async error => {
                 try {
                     if (error) throw error;

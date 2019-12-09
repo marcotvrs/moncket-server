@@ -12,7 +12,7 @@ module.exports = (projects, app) => {
                 const { projectid } = req.headers;
                 let type = `data:${ContentType};base64,`;
                 let buffer = new Buffer.from(dataUrl.replace(type, ""), "base64");
-                let e = await s3.putObject(_projects, projectid, filename, buffer, path, {
+                let e = await s3.putObject(projects, projectid, filename, buffer, path, {
                     ContentEncoding: "base64",
                     ContentType
                 });
@@ -30,7 +30,7 @@ module.exports = (projects, app) => {
             try {
                 const { path } = req.body;
                 const { projectid } = req.headers;
-                let e = await s3.listObjects(_projects, projectid, path);
+                let e = await s3.listObjects(projects, projectid, path);
                 res.json(resolvers.success(e));
             } catch (error) {
                 res.json(resolvers.error("/moncket/storage/storageListObjects/error", error));
@@ -45,7 +45,7 @@ module.exports = (projects, app) => {
             try {
                 const { path } = req.body;
                 const { projectid } = req.headers;
-                let e = await s3.deleteObject(_projects, projectid, path);
+                let e = await s3.deleteObject(projects, projectid, path);
                 res.json(resolvers.success(e));
             } catch (error) {
                 res.json(resolvers.error("/moncket/storage/storageDeleteObjects/error", error));
