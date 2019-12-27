@@ -1,6 +1,6 @@
 {
     "name": "moncket-server",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Moncket Server | A DaaS with MongoDB and Socket.io",
     "author": "Marco Tavares",
     "dependencies": {
