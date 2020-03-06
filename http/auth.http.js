@@ -14,28 +14,31 @@ module.exports = (projects, app) => {
                 try {
                     if (error) throw error;
                     const db = client.db(database);
-                    let [user] = await db.collection("users").aggregate([
-                        {
-                            $match: {
-                                email,
-                                password: md5(password)
+                    let [user] = await db
+                        .collection("users")
+                        .aggregate([
+                            {
+                                $match: {
+                                    email,
+                                    password: md5(password)
+                                }
+                            },
+                            {
+                                $lookup: {
+                                    from: "userGroups",
+                                    localField: "userGroups_id",
+                                    foreignField: "_id",
+                                    as: "userGroups"
+                                }
+                            },
+                            {
+                                $unwind: {
+                                    path: "$userGroups",
+                                    preserveNullAndEmptyArrays: true
+                                }
                             }
-                        },
-                        {
-                            $lookup: {
-                                from: "userGroups",
-                                localField: "userGroups_id",
-                                foreignField: "_id",
-                                as: "userGroups"
-                            }
-                        },
-                        {
-                            $unwind: {
-                                path: "$userGroups",
-                                preserveNullAndEmptyArrays: true
-                            }
-                        }
-                    ]);
+                        ])
+                        .toArray();
                     if (!user) throw new Error("Invalid e-mail or password.");
                     client.close(() =>
                         res.json(
