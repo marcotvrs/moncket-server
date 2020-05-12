@@ -1,4 +1,4 @@
 module.exports = (projects, app, io) => {
-    require("./http")(projects, app);
-    require("./sockets")(projects, io);
+  if (app) require("./http")(projects, app);
+  if (io) require("./sockets")(projects, io);
 };
